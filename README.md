@@ -1,22 +1,31 @@
-<h1>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-ampliseq_logo_dark.png">
-    <img alt="nf-core/ampliseq" src="docs/images/nf-core-ampliseq_logo_light.png">
-  </picture>
-</h1>
+## New DADA2 Error Estimation Parameters
 
-[![GitHub Actions CI Status](https://github.com/nf-core/ampliseq/actions/workflows/ci.yml/badge.svg)](https://github.com/nf-core/ampliseq/actions/workflows/ci.yml)
-[![GitHub Actions Linting Status](https://github.com/nf-core/ampliseq/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/ampliseq/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/ampliseq/results)[![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
+With customizable DADA2 error estimation parameters, for fine-tuning memory usage and processing speed:
 
-[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.1493841-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.1493841)[![Cite Publication](https://img.shields.io/badge/Cite%20Us!-Cite%20Publication-important?labelColor=000000)](https://doi.org/10.3389/fmicb.2020.550420)
+### New Parameters
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.04.2-23aa62.svg)](https://www.nextflow.io/)
-[![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
-[![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
-[![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/nf-core/ampliseq)
+- **`--dada2_nbases`** (default: `1e8`) - Number of bases used for DADA2 error rate learning
+- **`--dada2_nreads`** (default: `null`) - Number of reads used for DADA2 error rate learning
 
-[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23ampliseq-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/ampliseq)[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)[![Follow on Mastodon](https://img.shields.io/badge/mastodon-nf__core-6364ff?labelColor=FFFFFF&logo=mastodon)](https://mstdn.science/@nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)[![Watch on YouTube](http://img.shields.io/badge/youtube-ampliseq-FFFF00?labelColor=000000&logo=youtube)](https://youtu.be/a0VOEeAvETs)
+### Usage Examples
+
+```bash
+# Reduce memory usage and speed up processing
+nextflow run GutSee-Health/ampliseq --dada2_nbases 50000000 --dada2_nreads 1000
+
+# Use default behavior (same as previous versions)
+nextflow run GutSee-Health/ampliseq  # nbases=1e8, nreads=NULL
+```
+
+### Use Cases
+
+- **Memory-constrained environments**: Reduce `dada2_nbases` to lower memory usage
+- **Faster processing**: Limit `dada2_nreads` to speed up error estimation
+- **High-precision workflows**: Fine-tune error estimation for specific datasets
+
+*These parameters are fully backward compatible - existing workflows will continue to work unchanged.*
+
+---
 
 ## Introduction
 
@@ -73,7 +82,7 @@ nextflow run nf-core/ampliseq \
 > By default the taxonomic assignment will be performed with DADA2 on SILVA database, but there are various tools and databases readily available, see [taxonomic classification documentation](https://nf-co.re/ampliseq/usage#taxonomic-classification). Differential abundance testing with ([ANCOM](https://www.ncbi.nlm.nih.gov/pubmed/26028277)) or ([ANCOM-BC](https://www.ncbi.nlm.nih.gov/pubmed/32665548)) when opting in.
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration ***except for parameters***; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
 For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/ampliseq/usage) and the [parameter documentation](https://nf-co.re/ampliseq/parameters).
 
@@ -105,7 +114,7 @@ If you use `nf-core/ampliseq` for your analysis, please cite the `ampliseq` arti
 >
 > Daniel Straub, Nia Blackwell, Adrian Langarica-Fuentes, Alexander Peltzer, Sven Nahnsen, Sara Kleindienst
 >
-> _Frontiers in Microbiology_ 2020, 11:2652 [doi: 10.3389/fmicb.2020.550420](https://doi.org/10.3389/fmicb.2020.550420).
+> *Frontiers in Microbiology* 2020, 11:2652 [doi: 10.3389/fmicb.2020.550420](https://doi.org/10.3389/fmicb.2020.550420).
 
 You can cite the `nf-core/ampliseq` zenodo record for a specific version using the following [doi: 10.5281/zenodo.1493841](https://zenodo.org/badge/latestdoi/150448201)
 
@@ -117,4 +126,4 @@ You can cite the `nf-core` publication as follows:
 >
 > Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
 >
-> _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
+> *Nat Biotechnol.* 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).

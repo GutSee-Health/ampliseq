@@ -313,6 +313,21 @@
                     "type": "number",
                     "default": 0.001,
                     "description": "The percentile used to determine a stringent cutoff which will correspond to the minimum observed overlap in the dataset. This ensures that only read pairs with high overlap are merged into consensus sequences. Those with insufficient overlap are concatenated."
+                },
+                "dada2_nbases": {
+                    "type": "number",
+                    "default": 1e8,
+                    "description": "Number of bases to use for DADA2 error estimation",
+                    "help_text": "The number of bases to use when learning the error rates for DADA2. Uses all reads by default (1e8). Can be set to a smaller value to speed up error rate estimation at the cost of potentially less accurate error models. Set to a smaller value if memory is limited.",
+                    "minimum": 1000,
+                    "fa_icon": "fas fa-dna"
+                },
+                "dada2_nreads": {
+                    "type": "integer",
+                    "description": "Number of reads to use for DADA2 error estimation",
+                    "help_text": "The number of reads to use when learning the error rates for DADA2. By default, uses all available reads (NULL). Can be set to a specific number to limit the reads used for error rate estimation, which may speed up processing but could result in less accurate error models.",
+                    "minimum": 100,
+                    "fa_icon": "fas fa-dna"
                 }
             },
             "fa_icon": "fas fa-braille"
