@@ -18,6 +18,30 @@
 
 [![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23ampliseq-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/ampliseq)[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)[![Follow on Mastodon](https://img.shields.io/badge/mastodon-nf__core-6364ff?labelColor=FFFFFF&logo=mastodon)](https://mstdn.science/@nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)[![Watch on YouTube](http://img.shields.io/badge/youtube-ampliseq-FFFF00?labelColor=000000&logo=youtube)](https://youtu.be/a0VOEeAvETs)
 
+## 🆕 New DADA2 Error Estimation Parameters
+
+This version introduces customizable DADA2 error estimation parameters, allowing you to fine-tune memory usage and processing speed:
+
+### New Parameters
+- **`--dada2_nbases`** (default: `1e8`) - Number of bases used for DADA2 error rate learning
+- **`--dada2_nreads`** (default: `null`) - Number of reads used for DADA2 error rate learning
+
+### Usage Examples
+```bash
+# Reduce memory usage and speed up processing
+nextflow run nf-core/ampliseq --dada2_nbases 50000000 --dada2_nreads 1000
+
+# Use default behavior (same as previous versions)
+nextflow run nf-core/ampliseq  # nbases=1e8, nreads=NULL
+```
+
+### Use Cases
+- **Memory-constrained environments**: Reduce `dada2_nbases` to lower memory usage
+- **Faster processing**: Limit `dada2_nreads` to speed up error estimation
+- **High-precision workflows**: Fine-tune error estimation for specific datasets
+
+*These parameters are fully backward compatible - existing workflows will continue to work unchanged.*
+
 ## Introduction
 
 **nfcore/ampliseq** is a bioinformatics analysis pipeline used for amplicon sequencing, supporting denoising of any amplicon and supports a variety of taxonomic databases for taxonomic assignment including 16S, ITS, CO1 and 18S. Phylogenetic placement is also possible. Multiple region analysis such as 5R is implemented. Supported is paired-end Illumina or single-end Illumina, PacBio and IonTorrent data. Default is the analysis of 16S rRNA gene amplicons sequenced paired-end with Illumina.
